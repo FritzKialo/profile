@@ -162,15 +162,48 @@ h1{font-size:clamp(2.1rem,4.2vw,3.7rem);font-weight:900;line-height:1.07;letter-
 .proj-link:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(99,102,241,.48)}
 /* SKILLS */
 .skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-.sk-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem;transition:border-color .3s,transform .3s,background .3s}
-.sk-card:hover{border-color:rgba(99,102,241,.4);background:var(--card2);transform:translateY(-3px)}
-.sk-head{display:flex;align-items:center;gap:.6rem;margin-bottom:1rem}
-.sk-icon{width:36px;height:36px;background:rgba(99,102,241,.1);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.05rem;transition:background .3s,transform .3s}
-.sk-card:hover .sk-icon{background:rgba(99,102,241,.2);transform:rotate(-5deg) scale(1.1)}
-.sk-title{font-weight:800;font-size:.86rem;color:#fff}
-.sk-tags{display:flex;flex-wrap:wrap;gap:.32rem}
-.stag{background:rgba(255,255,255,.03);border:1px solid var(--border);color:var(--subtle);font-size:.71rem;font-weight:600;padding:.18rem .5rem;border-radius:5px;transition:color .2s,border-color .2s}
-.sk-card:hover .stag{color:var(--indigo);border-color:rgba(99,102,241,.22)}
+.sk-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s;
+  display:flex;flex-direction:column;
+}
+.sk-card:hover{transform:translateY(-5px);border-color:var(--sk-color,var(--accent))}
+.sk-card:hover{box-shadow:0 12px 40px var(--sk-shadow,rgba(99,102,241,.2))}
+.sk-header{
+  padding:1.35rem 1.4rem 1.1rem;
+  background:linear-gradient(135deg,var(--sk-bg1,rgba(99,102,241,.12)),var(--sk-bg2,rgba(99,102,241,.04)));
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:.85rem;
+  position:relative;overflow:hidden;
+}
+.sk-header::after{
+  content:'';position:absolute;right:-10px;top:-10px;
+  width:70px;height:70px;border-radius:50%;
+  background:var(--sk-orb,rgba(99,102,241,.12));
+  filter:blur(20px);
+}
+.sk-icon-wrap{
+  width:44px;height:44px;flex-shrink:0;
+  background:var(--sk-icon-bg,rgba(99,102,241,.15));
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;
+  border:1px solid var(--sk-border,rgba(99,102,241,.25));
+  transition:transform .3s;position:relative;z-index:1;
+}
+.sk-card:hover .sk-icon-wrap{transform:scale(1.1) rotate(-6deg)}
+.sk-title{font-weight:800;font-size:.9rem;color:#fff;line-height:1.2;position:relative;z-index:1}
+.sk-subtitle{font-size:.7rem;color:var(--sk-color,var(--subtle));font-weight:600;margin-top:.15rem}
+.sk-body{padding:1.1rem 1.4rem 1.35rem;flex:1}
+.sk-tags{display:flex;flex-wrap:wrap;gap:.38rem}
+.stag{
+  display:inline-block;
+  background:rgba(255,255,255,.03);border:1px solid var(--border2);
+  color:var(--subtle);font-size:.71rem;font-weight:600;
+  padding:.24rem .6rem;border-radius:6px;
+  transition:background .2s,color .2s,border-color .2s,transform .15s;
+}
+.sk-card:hover .stag{color:var(--sk-tag-color,var(--indigo));border-color:var(--sk-tag-border,rgba(99,102,241,.28));background:var(--sk-tag-bg,rgba(99,102,241,.07))}
+.stag:hover{transform:translateY(-1px)!important}
 /* EXPERIENCE */
 .exp-list-wrap{display:flex;flex-direction:column;gap:1.1rem}
 .exp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:2rem 2.25rem;position:relative;overflow:hidden;transition:border-color .3s,transform .3s}
@@ -399,6 +432,16 @@ $allTags = array_merge($tags, $tags);
 <div class="divider"></div>
 
 <!-- SKILLS -->
+<?php
+$skThemes = [
+  ['--sk-color:#818cf8','--sk-shadow:rgba(99,102,241,.18)','--sk-bg1:rgba(99,102,241,.13)','--sk-bg2:rgba(99,102,241,.04)','--sk-orb:rgba(99,102,241,.18)','--sk-icon-bg:rgba(99,102,241,.14)','--sk-border:rgba(99,102,241,.3)','--sk-tag-color:#818cf8','--sk-tag-border:rgba(99,102,241,.3)','--sk-tag-bg:rgba(99,102,241,.08)', 'sub'=>'Dev & Engineering'],
+  ['--sk-color:#22d3ee','--sk-shadow:rgba(34,211,238,.15)','--sk-bg1:rgba(34,211,238,.1)','--sk-bg2:rgba(34,211,238,.03)','--sk-orb:rgba(34,211,238,.15)','--sk-icon-bg:rgba(34,211,238,.12)','--sk-border:rgba(34,211,238,.28)','--sk-tag-color:#22d3ee','--sk-tag-border:rgba(34,211,238,.3)','--sk-tag-bg:rgba(34,211,238,.07)', 'sub'=>'Data & Storage'],
+  ['--sk-color:#10b981','--sk-shadow:rgba(16,185,129,.15)','--sk-bg1:rgba(16,185,129,.1)','--sk-bg2:rgba(16,185,129,.03)','--sk-orb:rgba(16,185,129,.15)','--sk-icon-bg:rgba(16,185,129,.12)','--sk-border:rgba(16,185,129,.28)','--sk-tag-color:#10b981','--sk-tag-border:rgba(16,185,129,.3)','--sk-tag-bg:rgba(16,185,129,.07)', 'sub'=>'Security & Networking'],
+  ['--sk-color:#a78bfa','--sk-shadow:rgba(167,139,250,.15)','--sk-bg1:rgba(167,139,250,.1)','--sk-bg2:rgba(167,139,250,.03)','--sk-orb:rgba(167,139,250,.15)','--sk-icon-bg:rgba(167,139,250,.12)','--sk-border:rgba(167,139,250,.28)','--sk-tag-color:#a78bfa','--sk-tag-border:rgba(167,139,250,.3)','--sk-tag-bg:rgba(167,139,250,.07)', 'sub'=>'Business Systems'],
+  ['--sk-color:#f59e0b','--sk-shadow:rgba(245,158,11,.12)','--sk-bg1:rgba(245,158,11,.09)','--sk-bg2:rgba(245,158,11,.02)','--sk-orb:rgba(245,158,11,.12)','--sk-icon-bg:rgba(245,158,11,.1)','--sk-border:rgba(245,158,11,.25)','--sk-tag-color:#fbbf24','--sk-tag-border:rgba(245,158,11,.28)','--sk-tag-bg:rgba(245,158,11,.07)', 'sub'=>'Infrastructure'],
+  ['--sk-color:#f472b6','--sk-shadow:rgba(244,114,182,.13)','--sk-bg1:rgba(244,114,182,.09)','--sk-bg2:rgba(244,114,182,.02)','--sk-orb:rgba(244,114,182,.13)','--sk-icon-bg:rgba(244,114,182,.1)','--sk-border:rgba(244,114,182,.25)','--sk-tag-color:#f472b6','--sk-tag-border:rgba(244,114,182,.28)','--sk-tag-bg:rgba(244,114,182,.07)', 'sub'=>'Strategy & Management'],
+];
+?>
 <div class="section" id="skills">
   <div class="reveal">
     <p class="eyebrow">Expertise</p>
@@ -406,11 +449,26 @@ $allTags = array_merge($tags, $tags);
     <p class="sh-sub">A broad, deep toolkit built across years of hands-on development, freelancing, and IT work.</p>
   </div>
   <div class="skills-grid">
-    <?php foreach($p['skills'] as $group): ?>
-    <div class="sk-card reveal">
-      <div class="sk-head"><div class="sk-icon"><?= $group['icon'] ?></div><div class="sk-title"><?= e($group['category']) ?></div></div>
-      <div class="sk-tags">
-        <?php foreach($group['items'] as $item): ?><span class="stag"><?= e($item) ?></span><?php endforeach; ?>
+    <?php foreach($p['skills'] as $i => $group):
+      $t = $skThemes[$i % count($skThemes)];
+      $style = implode(';', array_filter(array_map(fn($k) => is_string($k) ? "$k:{$t[$k]}" : '', array_keys($t)), fn($s) => !empty($s)));
+      // build CSS var string from numeric keys
+      $vars = [];
+      foreach($t as $k => $v) { if(is_string($k) && $k !== 'sub') $vars[] = "$k:$v"; }
+      $styleStr = implode(';', $vars);
+    ?>
+    <div class="sk-card reveal" style="<?= $styleStr ?>">
+      <div class="sk-header">
+        <div class="sk-icon-wrap"><?= $group['icon'] ?></div>
+        <div>
+          <div class="sk-title"><?= e($group['category']) ?></div>
+          <div class="sk-subtitle"><?= e($t['sub']) ?></div>
+        </div>
+      </div>
+      <div class="sk-body">
+        <div class="sk-tags">
+          <?php foreach($group['items'] as $item): ?><span class="stag"><?= e($item) ?></span><?php endforeach; ?>
+        </div>
       </div>
     </div>
     <?php endforeach; ?>
