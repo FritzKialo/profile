@@ -94,23 +94,62 @@ h1{font-size:clamp(2.1rem,4.2vw,3.7rem);font-weight:900;line-height:1.07;letter-
 .fcard-value{font-size:.88rem;font-weight:800;color:#fff}
 .fcard-value .hi{color:var(--indigo)}
 /* STATS */
-.stats-strip{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface);padding:2.2rem 1.5rem}
-.stats-inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
-.stat{text-align:center;padding:.5rem;position:relative}
-.stat:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;bottom:20%;width:1px;background:var(--border2)}
-.stat-num{font-size:clamp(1.8rem,3vw,2.6rem);font-weight:900;letter-spacing:-1.5px;background:linear-gradient(100deg,var(--indigo),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:.3rem}
-.stat-label{font-size:.8rem;color:var(--subtle);font-weight:600;letter-spacing:.3px}
+.stats-section{padding:3.5rem 1.5rem;position:relative;overflow:hidden}
+.stats-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 50% 50%,rgba(99,102,241,.06) 0%,transparent 65%);pointer-events:none}
+.stats-inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem;position:relative;z-index:1}
+.stat-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  padding:1.75rem 1.25rem 1.5rem;text-align:center;position:relative;overflow:hidden;
+  transition:transform .3s,border-color .3s,box-shadow .3s;
+}
+.stat-card:hover{transform:translateY(-5px);border-color:var(--sc-color,var(--accent));box-shadow:0 12px 36px var(--sc-glow,rgba(99,102,241,.18))}
+.stat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--sc-color,var(--accent)),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.stat-card:hover::before{opacity:1}
+.stat-card::after{
+  content:'';position:absolute;bottom:-20px;right:-20px;
+  width:80px;height:80px;border-radius:50%;
+  background:var(--sc-orb,rgba(99,102,241,.08));
+  filter:blur(24px);pointer-events:none;
+}
+.stat-icon{font-size:1.6rem;margin-bottom:.75rem;display:block;line-height:1}
+.stat-num{
+  font-size:clamp(2.2rem,3.5vw,3rem);font-weight:900;letter-spacing:-2px;
+  background:linear-gradient(135deg,var(--sc-c1,var(--indigo)),var(--sc-c2,var(--purple)));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1;margin-bottom:.5rem;display:block;
+}
+.stat-label{font-size:.78rem;color:var(--subtle);font-weight:700;letter-spacing:.5px;text-transform:uppercase}
 /* MARQUEE */
-.marquee-wrap{overflow:hidden;padding:1.6rem 0;border-bottom:1px solid var(--border);background:var(--surface);position:relative}
-.marquee-wrap::before,.marquee-wrap::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2}
-.marquee-wrap::before{left:0;background:linear-gradient(to right,var(--surface),transparent)}
-.marquee-wrap::after{right:0;background:linear-gradient(to left,var(--surface),transparent)}
-.marquee-track{display:flex;animation:marqueeScroll 28s linear infinite;width:max-content}
+.marquee-section{padding:0;overflow:hidden;position:relative;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:linear-gradient(90deg,var(--surface),rgba(99,102,241,.03),var(--surface))}
+.marquee-section::before,.marquee-section::after{content:'';position:absolute;top:0;bottom:0;width:140px;z-index:2;pointer-events:none}
+.marquee-section::before{left:0;background:linear-gradient(to right,var(--surface),transparent)}
+.marquee-section::after{right:0;background:linear-gradient(to left,var(--surface),transparent)}
+.marquee-row{padding:.9rem 0;display:flex;overflow:hidden}
+.marquee-row:first-child{border-bottom:1px solid rgba(255,255,255,.03)}
+.marquee-track{display:flex;animation:marqueeScroll 32s linear infinite;width:max-content}
+.marquee-track.rev{animation:marqueeScrollRev 28s linear infinite}
 .marquee-track:hover{animation-play-state:paused}
 @keyframes marqueeScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.mtag{display:inline-flex;align-items:center;gap:.4rem;padding:.38rem 1.1rem;margin:0 .35rem;background:rgba(255,255,255,.03);border:1px solid var(--border2);border-radius:999px;font-size:.78rem;font-weight:600;color:var(--subtle);white-space:nowrap;transition:color .2s,border-color .2s}
-.mtag:hover{color:var(--indigo);border-color:rgba(99,102,241,.35)}
-.mtag .dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+@keyframes marqueeScrollRev{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+.mtag{
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.42rem 1.05rem;margin:0 .3rem;
+  border-radius:999px;font-size:.76rem;font-weight:700;
+  white-space:nowrap;transition:all .2s;cursor:default;
+  background:rgba(255,255,255,.025);border:1px solid var(--border2);color:var(--subtle);
+}
+.mtag:hover{background:rgba(99,102,241,.1);border-color:rgba(99,102,241,.35);color:var(--indigo);transform:scale(1.06)}
+.mtag-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.mtag.c-indigo .mtag-dot{background:var(--indigo)}
+.mtag.c-cyan   .mtag-dot{background:var(--cyan)}
+.mtag.c-green  .mtag-dot{background:var(--green)}
+.mtag.c-purple .mtag-dot{background:var(--purple)}
+.mtag.c-amber  .mtag-dot{background:#f59e0b}
+.mtag.c-pink   .mtag-dot{background:#f472b6}
 /* SECTIONS */
 .section{max-width:1120px;margin:0 auto;padding:5.5rem 1.5rem}
 .eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-size:.68rem;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:.6rem}
@@ -249,7 +288,6 @@ footer a:hover{color:var(--indigo)}
   .photo-wrap{width:min(240px,65vw)}
   .fcard{display:none}
   .stats-inner{grid-template-columns:repeat(2,1fr)}
-  .stat:nth-child(2)::after,.stat:nth-child(3)::after{display:none}
   .svc-grid{grid-template-columns:repeat(2,1fr)}
   .skills-grid{grid-template-columns:repeat(2,1fr)}
   .project-card{grid-template-columns:1fr}
@@ -348,23 +386,57 @@ footer a:hover{color:var(--indigo)}
 </section>
 
 <!-- STATS -->
-<div class="stats-strip">
+<div class="stats-section">
   <div class="stats-inner">
-    <div class="stat reveal"><div class="stat-num" data-target="3">0</div><div class="stat-label">Years Freelancing</div></div>
-    <div class="stat reveal"><div class="stat-num" data-target="3" data-suffix="+">0</div><div class="stat-label">Live Web Projects</div></div>
-    <div class="stat reveal"><div class="stat-num" data-target="3">0</div><div class="stat-label">Freelance Platforms</div></div>
-    <div class="stat reveal"><div class="stat-num" data-target="100" data-suffix="%">0</div><div class="stat-label">Client Satisfaction</div></div>
+    <div class="stat-card reveal" style="--sc-color:#818cf8;--sc-glow:rgba(99,102,241,.18);--sc-orb:rgba(99,102,241,.1);--sc-c1:#818cf8;--sc-c2:#a78bfa">
+      <span class="stat-icon">🚀</span>
+      <span class="stat-num" data-target="3">0</span>
+      <div class="stat-label">Years Freelancing</div>
+    </div>
+    <div class="stat-card reveal" style="--sc-color:#22d3ee;--sc-glow:rgba(34,211,238,.15);--sc-orb:rgba(34,211,238,.1);--sc-c1:#22d3ee;--sc-c2:#818cf8">
+      <span class="stat-icon">🌐</span>
+      <span class="stat-num" data-target="3" data-suffix="+">0</span>
+      <div class="stat-label">Live Web Projects</div>
+    </div>
+    <div class="stat-card reveal" style="--sc-color:#10b981;--sc-glow:rgba(16,185,129,.15);--sc-orb:rgba(16,185,129,.1);--sc-c1:#10b981;--sc-c2:#22d3ee">
+      <span class="stat-icon">🏆</span>
+      <span class="stat-num" data-target="3">0</span>
+      <div class="stat-label">Freelance Platforms</div>
+    </div>
+    <div class="stat-card reveal" style="--sc-color:#a78bfa;--sc-glow:rgba(167,139,250,.15);--sc-orb:rgba(167,139,250,.1);--sc-c1:#f472b6;--sc-c2:#a78bfa">
+      <span class="stat-icon">⭐</span>
+      <span class="stat-num" data-target="100" data-suffix="%">0</span>
+      <div class="stat-label">Client Satisfaction</div>
+    </div>
   </div>
 </div>
 
 <!-- MARQUEE -->
 <?php
-$tags = ['PHP','Laravel','MySQL','JavaScript','HTML5','CSS3','Java','C++','PostgreSQL','TCP/IP','Linux','WordPress','ERP Systems','Academic Writing','CRM','REST APIs','Cybersecurity','Database Design','Responsive Web','SEO','Git','SME Solutions'];
-$allTags = array_merge($tags, $tags);
+$row1 = [
+  ['PHP','c-indigo'],['Laravel','c-indigo'],['MySQL','c-cyan'],['JavaScript','c-amber'],
+  ['HTML5','c-amber'],['CSS3','c-indigo'],['Java','c-purple'],['C++','c-purple'],
+  ['PostgreSQL','c-cyan'],['TCP/IP','c-green'],['Linux','c-green'],['REST APIs','c-cyan'],
+];
+$row2 = [
+  ['WordPress','c-pink'],['ERP Systems','c-purple'],['Academic Writing','c-pink'],
+  ['CRM','c-purple'],['Cybersecurity','c-green'],['Database Design','c-cyan'],
+  ['Responsive Web','c-indigo'],['SEO','c-amber'],['Git','c-amber'],['SME Solutions','c-green'],
+  ['Network Admin','c-green'],['Project Mgmt','c-pink'],
+];
+$r1 = array_merge($row1,$row1);
+$r2 = array_merge($row2,$row2);
 ?>
-<div class="marquee-wrap">
-  <div class="marquee-track">
-    <?php foreach($allTags as $t): ?><span class="mtag"><span class="dot"></span><?= e($t) ?></span><?php endforeach; ?>
+<div class="marquee-section">
+  <div class="marquee-row">
+    <div class="marquee-track">
+      <?php foreach($r1 as [$label,$cls]): ?><span class="mtag <?= $cls ?>"><span class="mtag-dot"></span><?= e($label) ?></span><?php endforeach; ?>
+    </div>
+  </div>
+  <div class="marquee-row">
+    <div class="marquee-track rev">
+      <?php foreach($r2 as [$label,$cls]): ?><span class="mtag <?= $cls ?>"><span class="mtag-dot"></span><?= e($label) ?></span><?php endforeach; ?>
+    </div>
   </div>
 </div>
 
