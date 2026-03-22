@@ -1,79 +1,99 @@
 <?php
 
 /**
- * Vercel entry point for Laravel.
+ * Vercel entry point for Laravel 12.
  *
- * Handles two Vercel-specific constraints:
- *  1. Read-only filesystem  → redirect storage to /tmp
- *  2. No .env file          → inject required config via $_ENV
+ * Key constraints on Vercel:
+ *  - Filesystem is read-only except /tmp
+ *  - No .env file (we inject env defaults below)
+ *  - storage/ must be redirected to /tmp BEFORE the app boots
  */
 
-use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
+error_reporting(E_ALL);
+ini_set('display_errors', '0');        // keep display off — log to stderr instead
+ini_set('log_errors', '1');
+ini_set('error_log', '/tmp/php_errors.log');
 
 define('LARAVEL_START', microtime(true));
 
 $root = dirname(__DIR__);
 
-// ── 1. Inject essential env values if not already set ─────────────────────
-//    This allows zero-config deployment from GitHub → Vercel.
+// ── 1. Inject env defaults before ANYTHING else ───────────────────────────
 $defaults = [
-    'APP_NAME'        => 'Francis Kialo',
-    'APP_ENV'         => 'production',
-    'APP_DEBUG'       => 'false',
-    'APP_URL'         => 'https://' . ($_SERVER['HTTP_HOST'] ?? 'localhost'),
-    // Generate a stable key from a project-specific secret so it survives
-    // across cold starts (Vercel re-uses the same image per deployment).
-    'APP_KEY'         => 'base64:' . base64_encode(hash('sha256', 'francis-kialo-portfolio-key-2025', true)),
-    'SESSION_DRIVER'  => 'cookie',   // no filesystem needed
-    'CACHE_STORE'     => 'array',    // in-memory, no filesystem needed
-    'LOG_CHANNEL'     => 'stderr',   // Vercel captures stderr as runtime logs
-    'QUEUE_CONNECTION'=> 'sync',
-    'FILESYSTEM_DISK' => 'local',
-    'DB_CONNECTION'   => 'sqlite',
-    'DB_DATABASE'     => '/tmp/database.sqlite',
+    'APP_NAME'         => 'Francis Kialo',
+    'APP_ENV'          => 'production',
+    'APP_DEBUG'        => 'true',           // true temporarily so errors are visible
+    'APP_URL'          => 'https://' . ($_SERVER['HTTP_HOST'] ?? 'localhost'),
+    'APP_KEY'          => 'base64:' . base64_encode(hash('sha256', 'francis-kialo-vercel-2025-secret', true)),
+    'SESSION_DRIVER'   => 'cookie',
+    'SESSION_ENCRYPT'  => 'false',
+    'CACHE_STORE'      => 'array',
+    'LOG_CHANNEL'      => 'stderr',
+    'QUEUE_CONNECTION' => 'sync',
+    'FILESYSTEM_DISK'  => 'local',
+    'DB_CONNECTION'    => 'sqlite',
+    'DB_DATABASE'      => ':memory:',
+    'BROADCAST_CONNECTION' => 'log',
+    'APP_MAINTENANCE_DRIVER' => 'file',
 ];
 
 foreach ($defaults as $key => $value) {
     if (empty($_ENV[$key]) && empty(getenv($key))) {
-        $_ENV[$key] = $value;
-        putenv("$key=$value");
+        $_ENV[$key]    = $value;
         $_SERVER[$key] = $value;
+        putenv("{$key}={$value}");
     }
 }
 
-// ── 2. Redirect storage to /tmp (only writable dir on Vercel) ─────────────
-$tmpStorage = '/tmp/storage';
+// ── 2. Pre-create all /tmp directories Laravel needs ─────────────────────
+$tmpStorage = '/tmp/laravel/storage';
 
-$dirs = [
-    "$tmpStorage/app/public",
-    "$tmpStorage/framework/cache/data",
-    "$tmpStorage/framework/sessions",
-    "$tmpStorage/framework/testing",
-    "$tmpStorage/framework/views",
-    "$tmpStorage/logs",
-];
-
-foreach ($dirs as $dir) {
+foreach ([
+    $tmpStorage . '/app/public',
+    $tmpStorage . '/framework/cache/data',
+    $tmpStorage . '/framework/sessions',
+    $tmpStorage . '/framework/testing',
+    $tmpStorage . '/framework/views',
+    $tmpStorage . '/logs',
+    '/tmp/laravel/bootstrap/cache',
+] as $dir) {
     if (!is_dir($dir)) {
         mkdir($dir, 0775, true);
     }
 }
 
-// ── 3. Maintenance mode check ─────────────────────────────────────────────
+// ── 3. Maintenance mode ───────────────────────────────────────────────────
 if (file_exists($maintenance = $root . '/storage/framework/maintenance.php')) {
     require $maintenance;
 }
 
-// ── 4. Composer autoloader ────────────────────────────────────────────────
+// ── 4. Autoloader ─────────────────────────────────────────────────────────
 require $root . '/vendor/autoload.php';
 
 // ── 5. Boot Laravel ───────────────────────────────────────────────────────
-/** @var Application $app */
-$app = require_once $root . '/bootstrap/app.php';
+// In Laravel 11/12 we must override paths on the Application instance
+// BEFORE calling create(), which is done via the configure() chain.
+$app = \Illuminate\Foundation\Application::configure(basePath: $root)
+    ->withRouting(
+        web:      $root . '/routes/web.php',
+        commands: $root . '/routes/console.php',
+        health:   '/up',
+    )
+    ->withMiddleware(function (\Illuminate\Foundation\Configuration\Middleware $middleware): void {
+        //
+    })
+    ->withExceptions(function (\Illuminate\Foundation\Configuration\Exceptions $exceptions): void {
+        //
+    })
+    ->create();
 
-$app->usePublicPath($root . '/public');
+// Override paths to writable /tmp locations
 $app->useStoragePath($tmpStorage);
+$app->usePublicPath($root . '/public');
 
-// ── 6. Handle request ─────────────────────────────────────────────────────
-$app->handleRequest(Request::capture());
+// Also override the bootstrap path so config/route cache goes to /tmp
+// (prevents write failures on the read-only project filesystem)
+$app->instance('path.bootstrap', '/tmp/laravel/bootstrap');
+
+// ── 6. Serve the request ──────────────────────────────────────────────────
+$app->handleRequest(\Illuminate\Http\Request::capture());
