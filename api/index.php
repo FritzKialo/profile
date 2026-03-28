@@ -319,9 +319,96 @@ footer a:hover{color:var(--indigo)}
   .cbtn-main,.cbtn-sec{justify-content:center}
   .comp-grid{grid-template-columns:1fr 1fr}
 }
+/* ── INTRO OVERLAY ─────────────────────────────────── */
+#intro{position:fixed;inset:0;z-index:9000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;transition:opacity .9s ease,visibility .9s ease}
+#intro.done{opacity:0;visibility:hidden;pointer-events:none}
+.intro-word{display:flex;overflow:hidden;line-height:1}
+.intro-l{font-size:clamp(4.5rem,13vw,11rem);font-weight:900;letter-spacing:-4px;color:#fff;display:block;transform:translateY(110%);animation:iUp .7s cubic-bezier(.16,1,.3,1) forwards}
+.intro-l.c{background:linear-gradient(100deg,var(--indigo),var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+@keyframes iUp{to{transform:translateY(0)}}
+.intro-divider{width:0;height:1.5px;background:linear-gradient(90deg,var(--indigo),var(--cyan));animation:iLine .5s 1s ease forwards}
+@keyframes iLine{to{width:clamp(60px,12vw,160px)}}
+/* ── FULLSCREEN PROJECT SCENE ──────────────────────── */
+#work{padding:0;overflow:visible}
+.proj-scene-header{max-width:1120px;margin:0 auto;padding:5.5rem 1.5rem 2.5rem}
+.proj-scene{position:relative;height:calc(var(--proj-n,2)*100vh + 80vh)}
+.proj-sticky{position:sticky;top:0;height:100vh;overflow:hidden}
+.proj-panel{
+  position:absolute;inset:0;display:flex;align-items:center;
+  padding:0 clamp(1.5rem,5vw,5.5rem);
+  opacity:0;transform:translateY(6vh);
+  transition:opacity .55s cubic-bezier(.4,0,.2,1),transform .55s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;
+}
+.pp-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
+.pp-bg::before{content:'';position:absolute;inset:0;background:var(--bg)}
+.pp-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 80% at var(--pp-ox,72%) 50%,var(--pp-orb,rgba(99,102,241,.13)),transparent 60%)}
+.pp-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);background-size:90px 90px}
+.pp-ghost{position:absolute;right:clamp(1rem,4vw,4rem);top:50%;transform:translateY(-50%);font-size:clamp(7rem,18vw,20rem);font-weight:900;letter-spacing:-10px;color:rgba(255,255,255,.03);line-height:1;pointer-events:none;user-select:none;z-index:0}
+.pp-content{position:relative;z-index:2;max-width:1200px;width:100%;margin:0 auto;display:grid;grid-template-columns:1.1fr 1fr;gap:4rem;align-items:center}
+.pp-badge{display:inline-flex;align-items:center;gap:.45rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4);font-size:.67rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:.3rem .9rem;border-radius:999px;margin-bottom:1.4rem}
+.pp-name{font-size:clamp(2.5rem,4.8vw,5rem);font-weight:900;letter-spacing:-3px;line-height:.95;color:#fff;margin-bottom:.9rem}
+.pp-tagline{font-size:.93rem;font-weight:700;color:var(--pp-ac,var(--indigo));margin-bottom:1rem;opacity:.9}
+.pp-desc{color:var(--subtle);font-size:.87rem;line-height:1.85;margin-bottom:1.4rem;max-width:440px}
+.pp-hl{list-style:none;display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.5rem}
+.pp-hl li{display:flex;align-items:flex-start;gap:.55rem;font-size:.82rem;color:var(--subtle)}
+.pp-hl li::before{content:'→';color:var(--pp-ac,var(--indigo));font-weight:800;flex-shrink:0;margin-top:.05rem}
+.pp-pills{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.75rem}
+.pp-pill{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);color:rgba(255,255,255,.35);font-size:.7rem;font-weight:600;padding:.22rem .6rem;border-radius:6px}
+.pp-cta{display:inline-flex;align-items:center;gap:.6rem;padding:.85rem 1.9rem;border-radius:12px;background:var(--pp-ac,var(--indigo));color:#fff;text-decoration:none;font-weight:800;font-size:.88rem;box-shadow:0 4px 24px var(--pp-glow,rgba(99,102,241,.3));transition:transform .22s,box-shadow .22s}
+.pp-cta:hover{transform:translateY(-3px);box-shadow:0 10px 36px var(--pp-glow,rgba(99,102,241,.5))}
+/* counter + pips */
+.pp-foot{position:absolute;bottom:2.5rem;left:clamp(1.5rem,5vw,5.5rem);right:clamp(1.5rem,5vw,5.5rem);z-index:10;display:flex;align-items:center;justify-content:space-between}
+.pp-counter{font-size:.68rem;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.2)}
+.pp-pips{display:flex;gap:.5rem;align-items:center}
+.pp-pip{width:20px;height:2px;border-radius:2px;background:rgba(255,255,255,.15);transition:all .4s;cursor:pointer}
+.pp-pip.on{width:36px;background:rgba(255,255,255,.6)}
+/* visual (browser mockup) */
+.pp-visual{width:100%;max-width:480px;margin-left:auto}
+.pp-browser{background:#060c1c;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.07);box-shadow:0 28px 80px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.04)}
+.pp-bar{background:#0b1525;padding:.55rem .9rem;display:flex;align-items:center;gap:.45rem;border-bottom:1px solid rgba(255,255,255,.05)}
+.ppd{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ppd-r{background:#ff5f57}.ppd-y{background:#febc2e}.ppd-g{background:#28c840}
+.pp-url{flex:1;margin-left:.35rem;background:rgba(255,255,255,.05);border-radius:5px;padding:.2rem .65rem;font-size:.63rem;color:var(--muted);letter-spacing:.3px}
+.pp-body{padding:1.2rem}
+/* SME Managers mockup */
+.sme-wrap{display:grid;grid-template-columns:75px 1fr;gap:.55rem;height:170px}
+.sme-side{display:flex;flex-direction:column;gap:.35rem;padding-top:.1rem}
+.sme-ni{padding:.3rem .5rem;border-radius:5px;font-size:.56rem;font-weight:600;color:rgba(255,255,255,.2)}
+.sme-ni.on{background:rgba(99,102,241,.18);color:var(--indigo)}
+.sme-main{display:flex;flex-direction:column;gap:.45rem}
+.sme-kpis{display:flex;gap:.35rem}
+.sme-kpi{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:.38rem .45rem}
+.sme-kv{font-size:.7rem;font-weight:800;color:#fff}
+.sme-kl{font-size:.48rem;color:var(--muted)}
+.sme-chart{display:flex;align-items:flex-end;gap:.22rem;height:60px;margin-top:.3rem;padding:0 .1rem}
+.sme-b{flex:1;border-radius:3px 3px 0 0;background:rgba(99,102,241,.25);transition:background .2s}
+.sme-b:hover{background:rgba(99,102,241,.55)}
+/* The Writora mockup */
+.wr-hero{background:linear-gradient(135deg,#2d1b69,#6d28d9);padding:.75rem .9rem;border-radius:6px 6px 0 0;margin-bottom:.55rem}
+.wr-eyebrow{font-size:.46rem;color:rgba(255,255,255,.55);letter-spacing:1px;margin-bottom:.18rem}
+.wr-title{font-size:.72rem;font-weight:800;color:#fff}
+.wr-sub{font-size:.54rem;color:rgba(255,255,255,.6)}
+.wr-list{display:flex;flex-direction:column;gap:.32rem}
+.wr-row{display:flex;align-items:center;gap:.45rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:5px;padding:.32rem .48rem}
+.wr-cat{font-size:.44rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#818cf8;flex-shrink:0;width:44px}
+.wr-t{font-size:.55rem;color:rgba(255,255,255,.5);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:940px){.pp-content{grid-template-columns:1fr}.pp-visual{display:none}.pp-ghost{display:none}}
+@media(max-width:680px){.pp-name{letter-spacing:-1.5px}}
 </style>
 </head>
 <body>
+<!-- INTRO OVERLAY -->
+<div id="intro">
+  <div class="intro-word">
+    <?php foreach(str_split('FRANCIS') as $i=>$l): ?><span class="intro-l" style="animation-delay:<?= $i*.065 ?>s"><?= $l ?></span><?php endforeach; ?>
+  </div>
+  <div class="intro-word">
+    <?php foreach(str_split('KIALO') as $i=>$l): ?><span class="intro-l c" style="animation-delay:<?= (.45+$i*.065) ?>s"><?= $l ?></span><?php endforeach; ?>
+  </div>
+  <div class="intro-divider"></div>
+</div>
+
 <div id="glow"></div>
 
 <div class="nav-wrap">
@@ -395,7 +482,7 @@ footer a:hover{color:var(--indigo)}
     </div>
     <div class="stat-card reveal" style="--sc-color:#22d3ee;--sc-glow:rgba(34,211,238,.15);--sc-orb:rgba(34,211,238,.1);--sc-c1:#22d3ee;--sc-c2:#818cf8">
       <span class="stat-icon">🌐</span>
-      <span class="stat-num" data-target="3" data-suffix="+">0</span>
+      <span class="stat-num" data-target="4" data-suffix="+">0</span>
       <div class="stat-label">Live Web Projects</div>
     </div>
     <div class="stat-card reveal" style="--sc-color:#10b981;--sc-glow:rgba(16,185,129,.15);--sc-orb:rgba(16,185,129,.1);--sc-c1:#10b981;--sc-c2:#22d3ee">
@@ -461,44 +548,95 @@ $r2 = array_merge($row2,$row2);
 <div class="divider"></div>
 
 <!-- PROJECT -->
-<div class="section" id="work">
-  <div class="reveal">
-    <p class="eyebrow">Featured Project</p>
+<div id="work">
+  <div class="proj-scene-header reveal">
+    <p class="eyebrow">Projects</p>
     <h2 class="sh">Work That <em>Ships &amp; Scales</em></h2>
-    <p class="sh-sub">A real-world application built from the ground up — designed, developed, and deployed solo.</p>
+    <p class="sh-sub">Real-world applications designed, developed, and deployed solo — from brief to live.</p>
   </div>
-  <?php foreach($p['projects'] as $project): ?>
-  <div class="project-card reveal">
-    <div class="proj-visual">
-      <div class="browser">
-        <div class="browser-bar">
-          <div class="bd bd-r"></div><div class="bd bd-y"></div><div class="bd bd-g"></div>
-          <div class="burl"><?= e($project['url']) ?></div>
+  <div class="proj-scene" style="--proj-n:<?= count($p['projects']) ?>">
+    <div class="proj-sticky">
+      <?php $ptotal = count($p['projects']); ?>
+      <?php foreach($p['projects'] as $pi => $proj):
+        $c = $proj['color'];
+        $host = parse_url($proj['url'], PHP_URL_HOST);
+      ?>
+      <div class="proj-panel" style="--pp-orb:<?= e($c['orb']) ?>;--pp-ox:<?= e($c['orb_x']) ?>;--pp-ac:<?= e($c['accent']) ?>;--pp-glow:<?= e($c['glow']) ?>">
+        <div class="pp-bg"><div class="pp-grid"></div></div>
+        <div class="pp-ghost">0<?= $pi+1 ?></div>
+        <div class="pp-content">
+          <!-- TEXT -->
+          <div>
+            <div class="pp-badge">✦ Live Project</div>
+            <div class="pp-name"><?= e($proj['name']) ?></div>
+            <div class="pp-tagline"><?= e($proj['tagline']) ?></div>
+            <div class="pp-desc"><?= e($proj['desc']) ?></div>
+            <ul class="pp-hl">
+              <?php foreach(array_slice($proj['highlights'],0,3) as $h): ?><li><?= e($h) ?></li><?php endforeach; ?>
+            </ul>
+            <div class="pp-pills">
+              <?php foreach($proj['tags'] as $tag): ?><span class="pp-pill"><?= e($tag) ?></span><?php endforeach; ?>
+            </div>
+            <a class="pp-cta" href="<?= e($proj['url']) ?>" target="_blank" rel="noopener">Visit Live Site ↗</a>
+          </div>
+          <!-- VISUAL -->
+          <div class="pp-visual">
+            <div class="pp-browser">
+              <div class="pp-bar">
+                <div class="ppd ppd-r"></div><div class="ppd ppd-y"></div><div class="ppd ppd-g"></div>
+                <div class="pp-url"><?= e($host) ?></div>
+              </div>
+              <div class="pp-body">
+                <?php if($pi === 0): ?>
+                <div class="sme-wrap">
+                  <div class="sme-side">
+                    <div class="sme-ni on">Dashboard</div>
+                    <div class="sme-ni">Users</div>
+                    <div class="sme-ni">Finances</div>
+                    <div class="sme-ni">Reports</div>
+                    <div class="sme-ni">Settings</div>
+                  </div>
+                  <div class="sme-main">
+                    <div class="sme-kpis">
+                      <div class="sme-kpi"><div class="sme-kv">142</div><div class="sme-kl">Users</div></div>
+                      <div class="sme-kpi"><div class="sme-kv">2.4M</div><div class="sme-kl">Revenue</div></div>
+                      <div class="sme-kpi"><div class="sme-kv">98%</div><div class="sme-kl">Uptime</div></div>
+                    </div>
+                    <div class="sme-chart">
+                      <div class="sme-b" style="height:55%"></div><div class="sme-b" style="height:75%"></div>
+                      <div class="sme-b" style="height:45%"></div><div class="sme-b" style="height:88%"></div>
+                      <div class="sme-b" style="height:62%"></div><div class="sme-b" style="height:95%"></div>
+                      <div class="sme-b" style="height:70%"></div>
+                    </div>
+                  </div>
+                </div>
+                <?php else: ?>
+                <div class="wr-hero">
+                  <div class="wr-eyebrow">INDEPENDENT · GLOBAL · VERIFIED</div>
+                  <div class="wr-title">Words that inspire.</div>
+                  <div class="wr-sub">Stories that matter.</div>
+                </div>
+                <div class="wr-list">
+                  <div class="wr-row"><span class="wr-cat">TECH</span><span class="wr-t">The Future of AI in Modern Newsrooms</span></div>
+                  <div class="wr-row"><span class="wr-cat">SCIENCE</span><span class="wr-t">Climate Change: A Data Deep Dive</span></div>
+                  <div class="wr-row"><span class="wr-cat">CULTURE</span><span class="wr-t">African Literature Renaissance</span></div>
+                </div>
+                <?php endif; ?>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="browser-body">
-          <div class="bb-logo">SMEManager ✦</div>
-          <div class="bb-sub">Business Management Portal</div>
-          <div class="bb-field">✉ Email address</div>
-          <div class="bb-field">🔒 Password</div>
-          <div class="bb-row"><div class="bb-btn">Sign In →</div><div class="bb-link">Forgot password?</div></div>
+        <!-- FOOTER (counter + pips) -->
+        <div class="pp-foot">
+          <span class="pp-counter">0<?= $pi+1 ?> &nbsp;/&nbsp; 0<?= $ptotal ?></span>
+          <div class="pp-pips">
+            <?php for($j=0;$j<$ptotal;$j++): ?><div class="pp-pip<?= $j===$pi?' on':'' ?>"></div><?php endfor; ?>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="proj-info">
-      <span class="proj-tag">✦ Live Project</span>
-      <div class="proj-name"><?= e($project['name']) ?></div>
-      <div class="proj-tagline"><?= e($project['tagline']) ?></div>
-      <div class="proj-desc"><?= e($project['desc']) ?></div>
-      <ul class="proj-highlights">
-        <?php foreach($project['highlights'] as $h): ?><li><?= e($h) ?></li><?php endforeach; ?>
-      </ul>
-      <div class="proj-pills">
-        <?php foreach($project['tags'] as $tag): ?><span class="pill"><?= e($tag) ?></span><?php endforeach; ?>
-      </div>
-      <a class="proj-link" href="<?= e($project['url']) ?>" target="_blank" rel="noopener">Visit Live Site ↗</a>
+      <?php endforeach; ?>
     </div>
   </div>
-  <?php endforeach; ?>
 </div>
 
 <div class="divider"></div>
@@ -597,11 +735,60 @@ $skThemes = [
 </footer>
 
 <script>
+/* ── CURSOR GLOW ── */
 if(window.matchMedia('(pointer:fine)').matches){const g=document.getElementById('glow');document.addEventListener('mousemove',e=>{g.style.left=e.clientX+'px';g.style.top=e.clientY+'px'})}
+
+/* ── INTRO ANIMATION ── */
+(function(){
+  const intro=document.getElementById('intro');
+  if(!intro)return;
+  document.body.style.overflow='hidden';
+  setTimeout(()=>{intro.classList.add('done');document.body.style.overflow='';},1900);
+  intro.addEventListener('click',()=>{intro.classList.add('done');document.body.style.overflow='';});
+})();
+
+/* ── REVEAL ON SCROLL ── */
 const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('up');io.unobserve(e.target)}})},{threshold:0.08});
 document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=`${(i%4)*65}ms`;io.observe(el)});
+
+/* ── COUNTER ANIMATION ── */
 const co=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;const el=entry.target,target=parseInt(el.dataset.target),suffix=el.dataset.suffix||'',dur=1400,step=16,steps=dur/step;let cur=0;const inc=target/steps,timer=setInterval(()=>{cur+=inc;if(cur>=target){cur=target;clearInterval(timer)}el.textContent=Math.floor(cur)+suffix},step);co.unobserve(el)})},{threshold:0.4});
 document.querySelectorAll('.stat-num[data-target]').forEach(el=>co.observe(el));
+
+/* ── FULLSCREEN PROJECT SCROLL ── */
+(function(){
+  const scene=document.querySelector('.proj-scene');
+  if(!scene)return;
+  const panels=[...scene.querySelectorAll('.proj-panel')];
+  const allPips=[...document.querySelectorAll('.pp-pip')];
+  const n=panels.length;
+  // init first panel visible
+  panels[0].style.opacity='1';panels[0].style.transform='translateY(0)';panels[0].style.pointerEvents='auto';
+  function update(){
+    const top=scene.getBoundingClientRect().top;
+    const scrollable=scene.offsetHeight-window.innerHeight;
+    const scrolled=Math.max(0,-top);
+    const progress=Math.min(1,scrolled/scrollable);
+    const active=progress*(n-1); // 0 → n-1
+    panels.forEach((p,i)=>{
+      const dist=i-active;
+      const op=Math.max(0,1-Math.abs(dist));
+      const ty=dist*7;
+      p.style.opacity=op;
+      p.style.transform=`translateY(${ty}vh)`;
+      p.style.pointerEvents=op>0.5?'auto':'none';
+    });
+    // sync pips: highlight closest panel
+    const cur=Math.round(Math.max(0,Math.min(n-1,active)));
+    // update ALL pip sets (one set per panel in DOM)
+    allPips.forEach((pip,idx)=>{
+      const panelIdx=Math.floor(idx/n);
+      pip.classList.toggle('on',idx%n===cur);
+    });
+  }
+  window.addEventListener('scroll',update,{passive:true});
+  update();
+})();
 </script>
 </body>
 </html>
