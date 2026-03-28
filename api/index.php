@@ -110,56 +110,49 @@ nav a:hover{color:var(--indigo)}
 .big-cta-links a{font-size:.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
 .big-cta-links a:hover{color:var(--text)}
 /* STATS */
-.stats-section{padding:3.5rem 1.5rem;position:relative;overflow:hidden}
-.stats-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 50% 50%,rgba(99,102,241,.06) 0%,transparent 65%);pointer-events:none}
-.stats-inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem;position:relative;z-index:1}
+.stats-section{padding:0;position:relative;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stats-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
 .stat-card{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--r);
-  padding:1.75rem 1.25rem 1.5rem;text-align:center;position:relative;overflow:hidden;
-  transition:transform .3s,border-color .3s,box-shadow .3s;
+  padding:3.5rem clamp(1.5rem,3.5vw,4rem);
+  border-right:1px solid var(--border);
+  text-align:left;position:relative;overflow:hidden;
+  transition:background .4s;cursor:default;
 }
-.stat-card:hover{transform:translateY(-5px);border-color:var(--sc-color,var(--accent));box-shadow:0 12px 36px var(--sc-glow,rgba(99,102,241,.18))}
-.stat-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--sc-color,var(--accent)),transparent);
-  opacity:0;transition:opacity .3s;
-}
-.stat-card:hover::before{opacity:1}
+.stat-card:last-child{border-right:none}
+.stat-card:hover{background:rgba(255,255,255,.013)}
 .stat-card::after{
-  content:'';position:absolute;bottom:-20px;right:-20px;
-  width:80px;height:80px;border-radius:50%;
-  background:var(--sc-orb,rgba(99,102,241,.08));
-  filter:blur(24px);pointer-events:none;
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,var(--sc-color,var(--accent)),transparent);
+  transform:scaleX(0);transform-origin:left;transition:transform .5s ease;
 }
-.stat-icon{font-size:1.6rem;margin-bottom:.75rem;display:block;line-height:1}
+.stat-card:hover::after{transform:scaleX(1)}
+.stat-icon{display:none}
 .stat-num{
-  font-size:clamp(2.2rem,3.5vw,3rem);font-weight:900;letter-spacing:-2px;
-  background:linear-gradient(135deg,var(--sc-c1,var(--indigo)),var(--sc-c2,var(--purple)));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  line-height:1;margin-bottom:.5rem;display:block;
+  font-family:var(--display);font-size:clamp(4.5rem,7.5vw,9rem);
+  color:var(--text);line-height:.92;letter-spacing:.01em;
+  margin-bottom:.7rem;display:block;
 }
-.stat-label{font-size:.78rem;color:var(--subtle);font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.stat-suffix{font-size:.6em;opacity:.7}
+.stat-label{font-size:.68rem;color:var(--muted);font-weight:700;letter-spacing:2px;text-transform:uppercase}
 /* MARQUEE */
-.marquee-section{padding:0;overflow:hidden;position:relative;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:linear-gradient(90deg,var(--surface),rgba(99,102,241,.03),var(--surface))}
-.marquee-section::before,.marquee-section::after{content:'';position:absolute;top:0;bottom:0;width:140px;z-index:2;pointer-events:none}
-.marquee-section::before{left:0;background:linear-gradient(to right,var(--surface),transparent)}
-.marquee-section::after{right:0;background:linear-gradient(to left,var(--surface),transparent)}
-.marquee-row{padding:.9rem 0;display:flex;overflow:hidden}
-.marquee-row:first-child{border-bottom:1px solid rgba(255,255,255,.03)}
-.marquee-track{display:flex;animation:marqueeScroll 32s linear infinite;width:max-content}
-.marquee-track.rev{animation:marqueeScrollRev 28s linear infinite}
+.marquee-section{overflow:hidden;position:relative;border-top:1px solid var(--border)}
+.marquee-section::before,.marquee-section::after{content:'';position:absolute;top:0;bottom:0;width:180px;z-index:2;pointer-events:none}
+.marquee-section::before{left:0;background:linear-gradient(to right,var(--bg),transparent)}
+.marquee-section::after{right:0;background:linear-gradient(to left,var(--bg),transparent)}
+.marquee-row{padding:0;display:flex;overflow:hidden;border-bottom:1px solid var(--border)}
+.marquee-track{display:flex;align-items:center;animation:marqueeScroll 40s linear infinite;width:max-content}
+.marquee-track.rev{animation:marqueeScrollRev 34s linear infinite}
 .marquee-track:hover{animation-play-state:paused}
 @keyframes marqueeScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @keyframes marqueeScrollRev{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 .mtag{
-  display:inline-flex;align-items:center;gap:.45rem;
-  padding:.42rem 1.05rem;margin:0 .3rem;
-  border-radius:999px;font-size:.76rem;font-weight:700;
-  white-space:nowrap;transition:all .2s;cursor:default;
-  background:rgba(255,255,255,.025);border:1px solid var(--border2);color:var(--subtle);
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:1.05rem 1.5rem;font-size:.78rem;font-weight:700;
+  white-space:nowrap;cursor:default;color:var(--muted);letter-spacing:.3px;
+  border-right:1px solid var(--border);transition:color .2s,background .2s;
 }
-.mtag:hover{background:rgba(99,102,241,.1);border-color:rgba(99,102,241,.35);color:var(--indigo);transform:scale(1.06)}
-.mtag-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.mtag:hover{color:var(--text);background:rgba(255,255,255,.02)}
+.mtag-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0;opacity:.7}
 .mtag.c-indigo .mtag-dot{background:var(--indigo)}
 .mtag.c-cyan   .mtag-dot{background:var(--cyan)}
 .mtag.c-green  .mtag-dot{background:var(--green)}
@@ -304,6 +297,9 @@ footer a:hover{color:var(--indigo)}
   .photo-wrap{width:min(240px,65vw)}
   .fcard{display:none}
   .stats-inner{grid-template-columns:repeat(2,1fr)}
+  .stat-card{border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .stat-card:nth-child(2n){border-right:none}
+  .stat-card:nth-last-child(-n+2){border-bottom:none}
   .svc-grid{grid-template-columns:repeat(2,1fr)}
   .skills-grid{grid-template-columns:repeat(2,1fr)}
   .project-card{grid-template-columns:1fr}
@@ -347,6 +343,9 @@ footer a:hover{color:var(--indigo)}
 /* ── FULLSCREEN PROJECT SCENE ──────────────────────── */
 #work{padding:0;overflow:visible}
 .proj-scene-header{max-width:1120px;margin:0 auto;padding:5.5rem 1.5rem 2.5rem}
+/* scroll progress bar */
+.proj-progress-bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--indigo),var(--purple),var(--cyan));width:0%;z-index:600;transition:width .1s linear;opacity:0;pointer-events:none}
+.proj-progress-bar.vis{opacity:1}
 .proj-scene{position:relative;height:calc((var(--proj-n,2) - 1)*90vh + 150vh)}
 .proj-sticky{position:sticky;top:0;height:100vh;overflow:hidden}
 .proj-panel{
@@ -475,23 +474,19 @@ footer a:hover{color:var(--indigo)}
 <!-- STATS -->
 <div class="stats-section">
   <div class="stats-inner">
-    <div class="stat-card reveal" style="--sc-color:#818cf8;--sc-glow:rgba(99,102,241,.18);--sc-orb:rgba(99,102,241,.1);--sc-c1:#818cf8;--sc-c2:#a78bfa">
-      <span class="stat-icon">🚀</span>
+    <div class="stat-card reveal" style="--sc-color:#818cf8">
       <span class="stat-num" data-target="3">0</span>
       <div class="stat-label">Years Freelancing</div>
     </div>
-    <div class="stat-card reveal" style="--sc-color:#22d3ee;--sc-glow:rgba(34,211,238,.15);--sc-orb:rgba(34,211,238,.1);--sc-c1:#22d3ee;--sc-c2:#818cf8">
-      <span class="stat-icon">🌐</span>
+    <div class="stat-card reveal" style="--sc-color:#22d3ee">
       <span class="stat-num" data-target="4" data-suffix="+">0</span>
       <div class="stat-label">Live Web Projects</div>
     </div>
-    <div class="stat-card reveal" style="--sc-color:#10b981;--sc-glow:rgba(16,185,129,.15);--sc-orb:rgba(16,185,129,.1);--sc-c1:#10b981;--sc-c2:#22d3ee">
-      <span class="stat-icon">🏆</span>
+    <div class="stat-card reveal" style="--sc-color:#10b981">
       <span class="stat-num" data-target="3">0</span>
       <div class="stat-label">Freelance Platforms</div>
     </div>
-    <div class="stat-card reveal" style="--sc-color:#a78bfa;--sc-glow:rgba(167,139,250,.15);--sc-orb:rgba(167,139,250,.1);--sc-c1:#f472b6;--sc-c2:#a78bfa">
-      <span class="stat-icon">⭐</span>
+    <div class="stat-card reveal" style="--sc-color:#a78bfa">
       <span class="stat-num" data-target="100" data-suffix="%">0</span>
       <div class="stat-label">Client Satisfaction</div>
     </div>
@@ -569,9 +564,10 @@ $wrevWords = [
 
 <!-- PROJECT -->
 <div id="work">
+  <div class="proj-progress-bar" id="projProgress"></div>
   <div class="proj-scene-header reveal">
-    <p class="eyebrow">Projects</p>
-    <h2 class="sh">Work That <em>Ships &amp; Scales</em></h2>
+    <p class="eyebrow">Selected Work</p>
+    <h2 class="sh">Built, Shipped, <em>&amp; Live</em></h2>
     <p class="sh-sub">Real-world applications designed, developed, and deployed solo — from brief to live.</p>
   </div>
   <div class="proj-scene" style="--proj-n:<?= count($p['projects']) ?>">
@@ -780,21 +776,26 @@ document.querySelectorAll('.stat-num[data-target]').forEach(el=>co.observe(el));
   if(!scene)return;
   const panels=[...scene.querySelectorAll('.proj-panel')];
   const allPips=[...document.querySelectorAll('.pp-pip')];
+  const progressBar=document.getElementById('projProgress');
   const n=panels.length;
-  // init
   panels.forEach((p,i)=>{p.style.zIndex=i===0?2:1;});
   panels[0].style.opacity='1';panels[0].style.transform='translateY(0)';panels[0].style.pointerEvents='auto';
   function update(){
-    const top=scene.getBoundingClientRect().top;
+    const rect=scene.getBoundingClientRect();
     const scrollable=scene.offsetHeight-window.innerHeight;
     if(scrollable<=0)return;
-    const scrolled=Math.max(0,-top);
+    const scrolled=Math.max(0,-rect.top);
     const progress=Math.min(1,scrolled/scrollable);
-    const active=progress*(n-1); // 0 → n-1
+    // progress bar: show while scene is in view
+    const inView=rect.top<window.innerHeight&&rect.bottom>0;
+    if(progressBar){
+      progressBar.classList.toggle('vis',inView);
+      progressBar.style.width=(progress*100)+'%';
+    }
+    const active=progress*(n-1);
     const cur=Math.round(active);
     panels.forEach((p,i)=>{
       const dist=Math.abs(i-active);
-      // Sharp crossfade: fully visible within 0.35 of active, gone past 0.65
       let op;
       if(dist<=0.35)op=1;
       else if(dist<=0.65)op=1-(dist-0.35)/0.3;
